@@ -40,48 +40,27 @@ module.exports = {
 			throw Error(`Error while Registering new user :  ${err}`)
 		}
     },
-    async getEventById (req,res){
-        
-        const {eventID} = req.params;
-        console.log(eventID);
+    
+
+     async deleteEvent(req,res){
+        const {eventID} =  req.params ;
+        console.log(eventID) ;
         try{
-            const event = await Event.findById(eventID);
-            return res.json(event)
-            
+
+            await Event.findByIdAndDelete(eventID)
+            res.status(204).send("done");
+        }catch(error){
+            res.status(404).json({
+                'message' : "this eventID doesn't exist"
+            })
         }
-        catch (error) {
-            return res.status(404).json(
-                {
-                    'message' : 'event not fount' 
-                }
-            )
-		}
-    },
-    async getAllEvents(req,res){
-        try{
-            const events = await Event.find({});
-            if (events){
-                  return res.json(events);
-            }
-                return res.status(404).json({
-                    "message" : "something went wrong" 
-                })
-        }
-        catch (error) {
-            return res.status(404).json(
-                {
-                    'message' : 'event not fount' 
-                }
-            )
-		}
-      
-    }, async getEventByType(req,res){
+    }, async getAllEvents(req,res){
         console.log(req.params);
         const { eventType } = req.params ;
         const query = {"sport" : eventType} || {} 
         
         try{
-        const events = await Event.find(query)
+        const events = await Events.find(query)
         if (events){
             return res.json(events);
        }
@@ -94,19 +73,6 @@ module.exports = {
                 'message' : 'no event type not fount'
             })
         }
-
-
-    }, async deleteEvent(req,res){
-        const {eventID} =  req.params ;
-        console.log(eventID) ;
-        try{
-
-            await Event.findByIdAndDelete(eventID)
-            res.status(204).send("done");
-        }catch(error){
-            res.status(404).json({
-                'message' : "this eventID doesn't exist"
-            })
-        }
+      
     }
 }
