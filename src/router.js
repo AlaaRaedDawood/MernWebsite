@@ -8,6 +8,7 @@ const UserController = require('../controller/UserController');
 const EventController = require('../controller/EventController');
 const DashBoardController = require('../controller/DashBoardController');
 const LogInController = require("../controller/LogInController");
+const RegisterationController = require('../controller/RegisterationController');
 const upload = multer(uploadConfig) ;
 
 routes.get('/status' , (req , res) => {
@@ -15,11 +16,16 @@ routes.get('/status' , (req , res) => {
   
 })
 //TODO Session controller
-//login
-routes.post('/login' , LogInController.logIn);
+
 //TODO Subscribe to event controller
 //TODO approval controller "accept request"
 //TODO refuse controller "refuse request"
+
+//registeration to an event
+routes.post('/regist/:eventId' , RegisterationController.create);
+routes.get('/registeration/:registeration_id' , RegisterationController.getRegisterationbyId);
+//login
+routes.post('/login' , LogInController.logIn);
 //dashboard
 routes.get('/dashboard' , DashBoardController.getAllEvents);
 routes.get('/dashboard/:eventType' , DashBoardController.getAllEvents);
