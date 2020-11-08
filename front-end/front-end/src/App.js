@@ -1,15 +1,14 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import {Container} from'reactstrap'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
+import Routes from './routes';
 
 function App() {
   return (
     <div className="App">
+      <Routes></Routes>
          <Container>
-         <Login></Login>
-         <Dashboard/>
+         <h1>HELLO</h1>
          </Container>
         
       
