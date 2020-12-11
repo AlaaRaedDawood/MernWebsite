@@ -20,10 +20,13 @@ module.exports = {
 		}
     },
     async getAllEvents(req,res){
-        console.log(req.params);
-        const { eventType } = req.params ;
-        const query = {"sport" : eventType} || {} 
         
+        
+        const { sport } = req.params;
+        //console.log( sport );
+        const query = sport ? { sport } : {}
+       
+        //console.log( query );
         try{
         const events = await Events.find(query)
         if (events){

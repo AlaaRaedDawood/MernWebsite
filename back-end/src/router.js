@@ -30,7 +30,7 @@ routes.post('/registeration/:registerationId/reject' , RejectRegisterationContro
 routes.post('/login' , LogInController.logIn);
 //dashboard
 routes.get('/dashboard' , DashBoardController.getAllEvents);
-routes.get('/dashboard/:eventType' , DashBoardController.getAllEvents);
+routes.get('/dashboard/:sport' , DashBoardController.getAllEvents);
 routes.get('/event/:eventID' , DashBoardController.getEventById);
 
 

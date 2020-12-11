@@ -8,7 +8,7 @@ module.exports = {
     async createEvent (req,res){
         try{
             //console.log("alaa hiii " ) ;
-            const {title , description , price , sport} = req.body;
+            const {title , description , price , sport } = req.body;
             const { user_id } = req.headers; 
             const { filename } = req.file;
             
