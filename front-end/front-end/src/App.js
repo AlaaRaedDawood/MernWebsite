@@ -5,13 +5,8 @@ import Routes from './routes';
 
 function App() {
   return (
-    <div className="App">
+    <div className="content">
       <Routes></Routes>
-         <Container>
-         <h1>HELLO FROM APP.JS</h1>
-         </Container>
-        
-      
     </div>
   );
 }
