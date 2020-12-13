@@ -23,7 +23,8 @@ module.exports = {
                 return res.json(uuser1);
                 
             }
-            return res.status(404).json({
+            
+            return res.status(200).json({
                 message : 'the user already exist' 
             })
             
