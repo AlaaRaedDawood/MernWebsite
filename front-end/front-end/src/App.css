@@ -54,7 +54,7 @@ button {
     opacity: 0.8;
     background: #ffffff;
     max-width: 60%;
-    height: 500px;
+    /* height: 500px; */
     margin-top: 50px ;
     border: 5px;
     padding: 10px;

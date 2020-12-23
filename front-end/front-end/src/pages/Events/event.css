@@ -1,6 +1,6 @@
 label#thumbnail {
     margin-bottom: 20px;
-    border: 1px;
+    border: 1px solid black;
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -15,7 +15,7 @@ label#thumbnail input {
 }
 
 label#thumbnail.has-thumbnail {
-    border: 0;
+    border: 1px solid black;
 }
 
 label#thumbnail.has-thumbnail img {
@@ -24,4 +24,5 @@ label#thumbnail.has-thumbnail img {
 
 .container > .event-validation {
     margin-top: 10px;
+    margin-left: 70px ;
 }

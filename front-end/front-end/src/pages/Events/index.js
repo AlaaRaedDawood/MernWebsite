@@ -13,6 +13,7 @@ export default function Event (){
     const [thumbnail,setThumbnail] = useState(null);
     const [date,setDate] = useState('');
    const [errorMessage, setErrorMessage] = useState(false);
+   const [success , setSuccessValue] = useState(false);
 
     console.log(title + " " + description + " " + price);
 
@@ -46,17 +47,19 @@ export default function Event (){
                 await api.post("/event/createEvent", eventData, { headers: { user_id } })
                 console.log(eventData)
                 console.log("Event has been saved")
+                setSuccessValue(true);
             } else {
                 setErrorMessage(true)
                 setTimeout(() => {
                     setErrorMessage(false)
                 }, 5000)
-
+                //setSuccessValue("missing");
                 console.log("Missing required data")
             }
         } catch (error) {
             Promise.reject(error);
             console.log(error);
+            setSuccessValue(false);
         }
     }
     
@@ -100,6 +103,7 @@ return (
          <Button type='submit'>Create Event</Button>
     </form>
     { (errorMessage) ? <Alert className="event-validation" color="danger"> Missing required information</Alert> : "" }
+    { (success) ? <Alert color="success" className="event-validation"> The event is saved successfully </Alert> : "" }
     </Container>
     
 
