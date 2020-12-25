@@ -32,7 +32,7 @@ export default function Event (){
         eventData.append("description", description)
         eventData.append("price", price)
         eventData.append("sport", sport)
-        eventData.append("date", date)
+        eventData.append("date", new Date(date))
 
 
         try {

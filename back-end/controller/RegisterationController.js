@@ -37,5 +37,13 @@ module.exports = {
         }catch(err){
             throw Error(`Error while Registering new user :  ${err}`)
         }
-    } 
+    } , 
+    async deleteAllRegisterations(req,res){
+        try{
+            const response = await Registration.deleteMany({});
+            res.status(200).send(response);
+        }catch(err){
+            res.send(err);
+        }
+    }
 };

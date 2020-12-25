@@ -8,7 +8,7 @@ module.exports = {
     async createEvent (req,res){
         try{
             //console.log("alaa hiii " ) ;
-            const {title , description , price , sport } = req.body;
+            const {title , description , price , sport , date} = req.body;
             const { user_id } = req.headers; 
             const { filename } = req.file;
             
@@ -28,7 +28,8 @@ module.exports = {
                     price: parseFloat(price) ,
                     sport ,
                     user : user_id ,
-                    thumbnail : filename
+                    thumbnail : filename ,
+                    date : date
                 } 
             )
             
@@ -74,5 +75,20 @@ module.exports = {
             })
         }
       
+    }, async deleteAllevents(req, res){
+        await Event.deleteMany({}, function(err, result) {
+            if (err) {
+              res.send(err);
+            } else {
+              res.send(result);
+            }
+          });
+        
+        // const result = async () => await Event.deleteMany()
+        // .then(function(){ 
+        //     console.log("Data deleted"); // Success 
+        // }).catch(function(error){ 
+        //     console.log(error); // Failure 
+        // }); 
     }
 }

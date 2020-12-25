@@ -21,6 +21,7 @@ routes.get('/status' , (req , res) => {
 
 //registeration to an event
 routes.post('/regist/:eventId' , RegisterationController.create);
+routes.delete('/deleteAllregisterations' , RegisterationController.deleteAllRegisterations);
 routes.get('/registeration/:registeration_id' , RegisterationController.getRegisterationbyId);
 //approveRequest
 routes.post('/registeration/:registerationId/approve' , ApproveRegisterationController.approveRequest);
@@ -37,9 +38,9 @@ routes.get('/event/:eventID' , DashBoardController.getEventById);
 //events
 routes.post('/event/createEvent' ,upload.single("thumbnail") ,EventController.createEvent);
 routes.delete('/events/:eventID' , EventController.deleteEvent);
-
+routes.delete('/eventsdelete' , EventController.deleteAllevents);
 //users
 routes.get('/user/:userID' , UserController.getUserById);
 routes.post('/user/register' , UserController.createUser);
-
+routes.delete('/usersdeleteAll' , UserController.deleteAllUsers);
 module.exports = routes ;

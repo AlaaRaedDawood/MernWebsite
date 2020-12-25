@@ -1,6 +1,7 @@
 
 const Uuser = require('../Models/User');
 const bcrypt = require('bcrypt');
+const { deleteAllevents } = require('./EventController');
 module.exports = {
     async createUser (req,res){
         try{
@@ -49,5 +50,13 @@ module.exports = {
                 }
             )
 		}
+    }, async deleteAllUsers(req ,res){
+        try{
+            const response = await Uuser.deleteMany({});
+            res.send(response)
+        }catch(err){
+            res.status(500).send(err);
+        }
+       
     }
 }
