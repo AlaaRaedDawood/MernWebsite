@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Login from './pages/Login/'
 import Register from './pages/Register'
-import Dashboard from './pages/Dashboard/'
+import Dashboard from './pages/Dashboard'
 import Event from './pages/Events';
 
 export default function Routes() {

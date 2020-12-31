@@ -6,6 +6,7 @@ import "./event.css";
 export default function Event (){
     const user_id = localStorage.getItem('user');
     console.log(user_id);
+    const [formKey,setFormKey] = useState(1);
     const [sport,setSport] = useState('');
     const [title,setTitle] = useState('');
     const [description,setDescription] = useState('');
@@ -16,11 +17,22 @@ export default function Event (){
    const [success , setSuccessValue] = useState(false);
 
     console.log(title + " " + description + " " + price);
-
+    
     const preview = useMemo(() => {
         return thumbnail ? URL.createObjectURL(thumbnail) : null;
     }, [thumbnail])
-
+    const resetIT = () => {
+       setFormKey(formKey + 1) 
+       setSuccessValue(false)
+       setSport('');
+       setTitle('');
+       setDescription('');
+       setPrice('');
+       setThumbnail(null);
+       setDate('');
+       setErrorMessage(false);
+       setSuccessValue(false);
+    }
     const submitHandler = async (evt) => { 
         evt.preventDefault();
         const user_id = localStorage.getItem('user');
@@ -48,6 +60,9 @@ export default function Event (){
                 console.log(eventData)
                 console.log("Event has been saved")
                 setSuccessValue(true);
+                setTimeout(() => {
+                    resetIT()
+                }, 3000)
             } else {
                 setErrorMessage(true)
                 setTimeout(() => {
@@ -64,7 +79,7 @@ export default function Event (){
     }
     
 return (
-    <Container>
+    <Container key={formKey}>
            <form onSubmit={submitHandler}>
         <FormGroup>
           <Label>Upload image </Label> <br/>
