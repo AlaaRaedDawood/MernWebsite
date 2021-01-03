@@ -1,13 +1,13 @@
 import React, { useState , useMemo} from 'react';
 import api from '../../Services/api'
-import { Container, Button, Form, FormGroup, Input, Label ,Alert } from 'reactstrap';
+import { Container, Button, Form, FormGroup, Input, Label ,Alert ,ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import CameraIcon from '../../assets/cameraIcon.png'
 import "./event.css";
 export default function Event (){
     const user_id = localStorage.getItem('user');
     console.log(user_id);
     const [formKey,setFormKey] = useState(1);
-    const [sport,setSport] = useState('');
+    const [sport,setSport] = useState('Sport');
     const [title,setTitle] = useState('');
     const [description,setDescription] = useState('');
     const [price,setPrice] = useState('');
@@ -15,16 +15,20 @@ export default function Event (){
     const [date,setDate] = useState('');
    const [errorMessage, setErrorMessage] = useState(false);
    const [success , setSuccessValue] = useState(false);
+   const [dropdownOpen, setOpen] = useState(false);
+
+   const toggle = () => setOpen(!dropdownOpen);
 
     console.log(title + " " + description + " " + price);
     
     const preview = useMemo(() => {
         return thumbnail ? URL.createObjectURL(thumbnail) : null;
     }, [thumbnail])
+    
     const resetIT = () => {
        setFormKey(formKey + 1) 
        setSuccessValue(false)
-       setSport('');
+       setSport('Sport');
        setTitle('');
        setDescription('');
        setPrice('');
@@ -32,6 +36,7 @@ export default function Event (){
        setDate('');
        setErrorMessage(false);
        setSuccessValue(false);
+       setOpen(false);
     }
     const submitHandler = async (evt) => { 
         evt.preventDefault();
@@ -51,7 +56,7 @@ export default function Event (){
             if (title !== "" &&
                 description !== "" &&
                 price !== "" &&
-                sport !== "" &&
+                sport !== "Sport" &&
                 date !== "" &&
                 thumbnail !== null
             ) {
@@ -62,7 +67,7 @@ export default function Event (){
                 setSuccessValue(true);
                 setTimeout(() => {
                     resetIT()
-                }, 3000)
+                }, 1000)
             } else {
                 setErrorMessage(true)
                 setTimeout(() => {
@@ -92,14 +97,10 @@ return (
          
          <FormGroup>
           <Label>Title </Label> <br/>
-          <input id='sport' value={title} type="text" placeholder="Sport Title" onChange={(event) => setTitle(event.target.value)}></input>
+          <input id='title' value={title} type="text" placeholder="Sport Title" onChange={(event) => setTitle(event.target.value)}></input>
          </FormGroup>
 
-         <FormGroup>
-          <Label>Sport </Label> <br/>
-          <input id='sport' value={sport} type="text" placeholder="Sport Title" onChange={(event) => setSport(event.target.value)}></input>
-         </FormGroup>
-
+        
          <FormGroup>
           <Label>Description </Label> <br/>
           <input id='description' value={description} type="text" placeholder="Description" onChange={(event) => setDescription(event.target.value)}></input>
@@ -113,6 +114,21 @@ return (
          <FormGroup>
           <Label>Date </Label> <br/>
           <input id='date' value={date} type="date" placeholder="Date" onChange={(event) => setDate(event.target.value)}></input>
+         </FormGroup>
+         <FormGroup>
+             
+          {/* <Label>Sport </Label> <br/> */}
+          <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+            
+                <Button id="caret" value={sport} disabled>{sport}</Button>
+                <DropdownToggle caret />
+                <DropdownMenu>
+                    <DropdownItem onClick={() => setSport('running')}>running</DropdownItem>
+                    <DropdownItem onClick={() => setSport('cycling')}>cycling</DropdownItem>
+                    <DropdownItem onClick={() => setSport('swimming')}>swimming</DropdownItem>
+                </DropdownMenu>
+          </ButtonDropdown>
+          {/* <input id='sport' value={sport} type="text" placeholder="Sport Title" onChange={(event) => setSport(event.target.value)}></input> */}
          </FormGroup>
 
          <Button type='submit'>Create Event</Button>

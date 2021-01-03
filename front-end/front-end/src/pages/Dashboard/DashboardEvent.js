@@ -1,25 +1,26 @@
 import React from 'react' ;
 import { Container } from 'reactstrap';
+import moment from 'moment';
 
 
 
  function DashboardEvent (props){
-
+   
     return (
-        <Container class="eventProp">
-        <div style={{ backgroundImage: `url(${props.event.thumbnail})` }}> </div>
-        <h1>{props.event.title}</h1>
-        <p>{props.event.description} </p>
-        <p>{props.event.price} </p>
-        <p>{props.event.date} </p>
-        <p>{props.event.sport} </p>
-        <hr style={{border: "1px solid red"}}></hr>
-        
-        
-    
-   
-   
+        <Container>
+          
+            <header style={{ backgroundImage: `url(${props.event.thumbnail_url})` }} />
+            <strong>{props.event.title}</strong>
+            <span>Event Date: {moment(props.event.date).format('l')}</span>
+            <span>Event Price: {parseFloat(props.event.price).toFixed(2)}</span>
+            <span>Event Description: {props.event.description} </span>
+            
+              
         </Container>
+         
+
+        
+       
         
        
        
