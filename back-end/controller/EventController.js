@@ -49,7 +49,8 @@ module.exports = {
         try{
 
             await Event.findByIdAndDelete(eventID)
-            res.status(204).send("done");
+            console.log("event deleted")
+            res.status(200).send("done");
         }catch(error){
             res.status(404).json({
                 'message' : "this eventID doesn't exist"

@@ -42,6 +42,26 @@ module.exports = {
             })
         }
       
+    }, async getEventByUserId(req,res){
+        const {user_id} = req.headers;
+        console.log(user_id)
+        try{
+            const events = await Events.find({ user : user_id })
+            if (events){
+                return res.json(events)
+           }
+           return res.status(404).json({
+            "message" : "no events were found" 
+        })
+        }catch(error){
+            console.log(error);
+            res.status(404).json({
+                'message' : `error occured ${error}`
+            })
+        }
+        
+        
+
     }
 }
      

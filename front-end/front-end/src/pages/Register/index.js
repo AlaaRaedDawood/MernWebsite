@@ -21,7 +21,7 @@ export default function Login({ history }) {
                 if (userId) {
                     localStorage.setItem('user', userId)
                     console.log('done')
-                    history.push('/dashboard')
+                    history.push('/')
                 } else {
                     const { message } = response.data ;
                     console.log(message)

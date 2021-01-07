@@ -33,7 +33,7 @@ routes.post('/login' , LogInController.logIn);
 routes.get('/dashboard' , DashBoardController.getAllEvents);
 routes.get('/dashboard/:sport' , DashBoardController.getAllEvents);
 routes.get('/event/:eventID' , DashBoardController.getEventById);
-
+routes.get('/dashboardUserId' , DashBoardController.getEventByUserId);
 
 //events
 routes.post('/event/createEvent' ,upload.single("thumbnail") ,EventController.createEvent);
