@@ -22,7 +22,7 @@ export default function Login({ history }) {
         
                 if (userId) {
                     localStorage.setItem('user', userId)
-                    history.push('/dashboard')
+                    history.push('/')
                 } else {
                     const { message } = response.data
                     console.log(message)
