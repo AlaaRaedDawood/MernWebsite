@@ -6,7 +6,7 @@ import api from '../../Services/api';
 
  function DashboardEvent (props){
 
-    const user_id = localStorage.getItem('user');
+    const user_id = localStorage.getItem('userID');
     const [error, setError] = useState(false);
     const [success, setSuccess] = useState(false);
     

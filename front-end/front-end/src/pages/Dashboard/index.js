@@ -7,7 +7,8 @@ import './dashboardgrid.css' ;
  function Dashboard ({ history }){
     
     const [events,setEvent] = useState([]);
-    const user_id = localStorage.getItem('user');
+    const user = localStorage.getItem('userToken');
+    const user_id = localStorage.getItem('userID');
     const [rSelected,setRSelected] = useState(null);
     const [f ,setF] = useState(null);
   
@@ -28,15 +29,18 @@ import './dashboardgrid.css' ;
         if(filter == "myEvents"){
             console.log("allllllllaaaaaaaa " +filter);
             const url = '/dashboardUserId' ;
-            const response =  await api.get(url , { headers : {user_id}}) ;
-            console.log(url) ;
-            response.data && setEvent(response.data) ;
+            const response =  await api.get(url , { headers : {user}}) ;
+            console.log(url + "alllllllllll " +response.data) ;
+           // setEvent(response.data)
+            response.data && setEvent(response.data.events) ;
         }else{
-            console.log("allllllllaaaaaaaa " +filter);
+            
             const url = filter ? `/dashboard/${filter}` : '/dashboard' ;
-            const response =  await api.get(url , { headers : {user_id}}) ;
-            console.log(url) ;
-            response.data && setEvent(response.data) ;
+            console.log("allllllllaaaaaaaa filter =" +filter + " url = " + user);
+            const response =  await api.get(url , { headers : {user}}) ;
+            console.log(url + "alllllllllll " +response.data) ;
+           // setEvent(response.data)
+            response.data && setEvent(response.data.events) ;
         }
          
         
@@ -49,9 +53,9 @@ import './dashboardgrid.css' ;
     ,[]);
     return (
         <>
-            <h1 class="eventgrid">Sport's Events</h1>
-            <div class="fitbuttons">
-                <ButtonGroup class="eventgrid_button">
+            <h1 className="eventgrid">Sport's Events</h1>
+            <div className="fitbuttons">
+                <ButtonGroup className="eventgrid_button">
                      <Button color="primary" onClick={() => checkEvents(null)} active={rSelected === null}>All Sport</Button>
                      <Button color="primary" onClick={() => checkEvents("myEvents")} active={rSelected === "myEvents"}>My Events</Button>
                      <Button color="primary" onClick={() => checkEvents("running")} active={rSelected === "running"}>Running</Button>
@@ -61,7 +65,7 @@ import './dashboardgrid.css' ;
                 <Button color="secondary" onClick={() => history.push("/event")}>Create Events</Button>
             </div>
             
-            <ul  class="eventgrid">
+            <ul  className="eventgrid">
                {events.map((event) => ( 
                    <li key={event._id}>
                      <DashboardEvent event={event} filterHandler={getEvents}> </DashboardEvent>

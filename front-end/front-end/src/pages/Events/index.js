@@ -40,7 +40,7 @@ export default function Event (){
     }
     const submitHandler = async (evt) => { 
         evt.preventDefault();
-        const user_id = localStorage.getItem('user');
+        const user_id = localStorage.getItem('userID');
 
         const eventData = new FormData();
        

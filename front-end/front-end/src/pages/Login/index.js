@@ -18,10 +18,12 @@ export default function Login({ history }) {
                 setTimeout(() => { setErrorMessage(false); }, 3000);
             }else{
                 const response = await api.post('/login', { email, password })
-                const userId = response.data._id || false;
-        
-                if (userId) {
-                    localStorage.setItem('user', userId)
+                const userId = response.data.user_id || false;
+                const user = response.data.user || false
+                
+                if (user && userId) {
+                    localStorage.setItem('userID', userId)
+                    localStorage.setItem('userToken', user)
                     history.push('/')
                 } else {
                     const { message } = response.data

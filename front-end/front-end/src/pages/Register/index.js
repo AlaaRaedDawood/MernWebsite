@@ -16,12 +16,13 @@ export default function Login({ history }) {
             if (email !== "" && password !== "" && firstName !== "" && lastName !== "") {
                 console.log('result of the Registeration',firstName , lastName,  email, password)
                 const response = await api.post('/user/register', {firstName , lastName , email , password})
-                const userId = response.data._id || false;
-        
-                if (userId) {
-                    localStorage.setItem('user', userId)
-                    console.log('done')
-                    history.push('/')
+                const userId = response.data.user_id || false;
+                const user = response.data.user || false;
+                if (userId && user) {
+                    localStorage.setItem('userID', userId);
+                    localStorage.setItem('userToken', user);
+                    console.log('done');
+                    history.push('/');
                 } else {
                     const { message } = response.data ;
                     console.log(message)

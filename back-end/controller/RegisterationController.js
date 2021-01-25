@@ -1,7 +1,7 @@
 const User = require('../Models/User');
 const Event = require('../Models/Event');
 const Registration = require('../Models/Registration');
-
+const jwt = require('jsonwebtoken');
 module.exports = {
     async create(req, res) {
         const { user_id } = req.headers;
@@ -19,8 +19,13 @@ module.exports = {
                 .populate('event')
                 .populate('user','-password') // we add second argument so we remove the password
                 .execPopulate();
-    
-            return res.json(registration)
+            return jwt.sign({ user: registration }, 'secret', (err, token) => {
+				return res.json({
+					user: token,
+					user_id: registration._id
+				})
+			})
+            //return res.json(registration)
         }
         catch(err){
             throw Error(`Error while Registering new user :  ${err}`)

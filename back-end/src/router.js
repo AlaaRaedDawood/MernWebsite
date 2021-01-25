@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-
+const verifytoken = require('./config/verifytoken');
 const routes = express.Router() ;
 
 const uploadConfig = require('./config/upload');
@@ -30,10 +30,10 @@ routes.post('/registeration/:registerationId/reject' , RejectRegisterationContro
 //login
 routes.post('/login' , LogInController.logIn);
 //dashboard
-routes.get('/dashboard' , DashBoardController.getAllEvents);
-routes.get('/dashboard/:sport' , DashBoardController.getAllEvents);
-routes.get('/event/:eventID' , DashBoardController.getEventById);
-routes.get('/dashboardUserId' , DashBoardController.getEventByUserId);
+routes.get('/dashboard' ,verifytoken ,  DashBoardController.getAllEvents);
+routes.get('/dashboard/:sport', verifytoken , DashBoardController.getAllEvents);
+routes.get('/event/:eventID' , verifytoken ,  DashBoardController.getEventById);
+routes.get('/dashboardUserId' , verifytoken ,DashBoardController.getEventByUserId);
 
 //events
 routes.post('/event/createEvent' ,upload.single("thumbnail") ,EventController.createEvent);
