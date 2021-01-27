@@ -26,3 +26,12 @@ label#thumbnail.has-thumbnail img {
     margin-top: 10px;
     margin-left: 70px ;
 }
+#dashBoardButton {
+    background-color: #5236f4;
+    margin: 5px;
+
+}
+#logOutButton{
+    background-color: #f44336;
+    margin: 5px;
+}

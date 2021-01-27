@@ -1,10 +1,10 @@
-import React, { useState , useMemo} from 'react';
+import React, { useState , useMemo , useEffect} from 'react';
 import api from '../../Services/api'
 import { Container, Button, Form, FormGroup, Input, Label ,Alert ,ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import CameraIcon from '../../assets/cameraIcon.png'
 import "./event.css";
-export default function Event (){
-    const user_id = localStorage.getItem('user');
+export default function Event ({ history }){
+    const user_id = localStorage.getItem('userID');
     console.log(user_id);
     const [formKey,setFormKey] = useState(1);
     const [sport,setSport] = useState('Sport');
@@ -13,18 +13,30 @@ export default function Event (){
     const [price,setPrice] = useState('');
     const [thumbnail,setThumbnail] = useState(null);
     const [date,setDate] = useState('');
-   const [errorMessage, setErrorMessage] = useState(false);
-   const [success , setSuccessValue] = useState(false);
-   const [dropdownOpen, setOpen] = useState(false);
-
-   const toggle = () => setOpen(!dropdownOpen);
+    const [errorMessage, setErrorMessage] = useState(false);
+    const [success , setSuccessValue] = useState(false);
+    const [dropdownOpen, setOpen] = useState(false);
+    const toggle = () => setOpen(!dropdownOpen);
 
     console.log(title + " " + description + " " + price);
     
+    useEffect( () => {
+        if(!user_id){
+            history.push('/login')
+        }
+
+    }
+       
+        ,[]);
+
     const preview = useMemo(() => {
         return thumbnail ? URL.createObjectURL(thumbnail) : null;
     }, [thumbnail])
-    
+    const logOutHandler = () => {
+        localStorage.removeItem('userID');
+        localStorage.removeItem('userToken');
+        history.push('/login')
+    }
     const resetIT = () => {
        setFormKey(formKey + 1) 
        setSuccessValue(false)
@@ -96,8 +108,15 @@ export default function Event (){
     }
     
 return (
+    <>
+    <Button id="dashBoardButton" onClick={() => history.push('/')} >Dashboard</Button>
+    <Button id="logOutButton" onClick={logOutHandler}>Log Out</Button>
+    <br></br>
+    <br></br>
+    <h1>Create Event</h1>
     <Container key={formKey}>
-           <form onSubmit={submitHandler}>
+        
+        <form onSubmit={submitHandler}>
         <FormGroup>
           <Label>Upload image </Label> <br/>
           <Label id='thumbnail' style={{ backgroundImage: `url(${preview})` }} className={thumbnail ? 'has-thumbnail' : ''}>
@@ -143,12 +162,12 @@ return (
           {/* <input id='sport' value={sport} type="text" placeholder="Sport Title" onChange={(event) => setSport(event.target.value)}></input> */}
          </FormGroup>
 
-         <Button type='submit'>Create Event</Button>
+         <Button type='submit'>Submit</Button>
     </form>
     { (errorMessage) ? <Alert className="event-validation" color="danger"> Make sure that the data is correct and not missing </Alert> : "" }
     { (success) ? <Alert color="success" className="event-validation"> The event is saved successfully </Alert> : "" }
     </Container>
-    
+    </>
 
         
     
