@@ -36,8 +36,8 @@ routes.get('/event/:eventID' , verifytoken ,  DashBoardController.getEventById);
 routes.get('/dashboardUserId' , verifytoken ,DashBoardController.getEventByUserId);
 
 //events
-routes.post('/event/createEvent' ,upload.single("thumbnail") ,EventController.createEvent);
-routes.delete('/events/:eventID' , EventController.deleteEvent);
+routes.post('/event/createEvent' , verifytoken ,upload.single("thumbnail") ,EventController.createEvent);
+routes.delete('/events/:eventID' ,verifytoken , EventController.deleteEvent);
 routes.delete('/eventsdelete' , EventController.deleteAllevents);
 //users
 routes.get('/user/:userID' , UserController.getUserById);

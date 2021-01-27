@@ -45,6 +45,26 @@ import './dashboardgrid.css' ;
          
         
     }
+    const resetEvents = async (filter) => {
+        if(filter == "myEvents"){
+            console.log("allllllllaaaaaaaa " +filter);
+            const url = '/dashboardUserId' ;
+            const response =  await api.get(url , { headers : {user}}) ;
+            console.log(url + "alllllllllll " +response.data) ;
+           // setEvent(response.data)
+            response.data && setEvent(response.data.events) ;
+        }else{
+            
+            const url = filter ? `/dashboard/${filter}` : '/dashboard' ;
+            console.log("allllllllaaaaaaaa filter =" +filter + " url = " + user);
+            const response =  await api.get(url , { headers : {user}}) ;
+            console.log(url + "alllllllllll " +response.data) ;
+           // setEvent(response.data)
+            response.data && setEvent(response.data.events) ;
+        }
+         
+        
+    }
     
 
    
@@ -68,7 +88,7 @@ import './dashboardgrid.css' ;
             <ul  className="eventgrid">
                {events.map((event) => ( 
                    <li key={event._id}>
-                     <DashboardEvent event={event} filterHandler={getEvents}> </DashboardEvent>
+                     <DashboardEvent event={event} filterHandler={checkEvents} filterd={rSelected} > </DashboardEvent>
                      <Button id="subButton" color="primary">Subscribe</Button>
                    </li>
                  ))

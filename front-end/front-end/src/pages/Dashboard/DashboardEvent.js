@@ -7,18 +7,19 @@ import api from '../../Services/api';
  function DashboardEvent (props){
 
     const user_id = localStorage.getItem('userID');
+    const user = localStorage.getItem('userToken');
     const [error, setError] = useState(false);
     const [success, setSuccess] = useState(false);
     
     const deleteEventHandler = async (event_id) => {
         try{
         const url = `/events/${event_id}`
-        const response =  await api.delete(url) ;
+        await api.delete(url , { headers : {user}}) ;
         console.log(url) ;
         setSuccess(true)
         setTimeout(() => {
             setSuccess(false)
-            props.filterHandler(null)
+            props.filterHandler(props.filterd)
             console.log("mmmmmmmmmmmmmmmmmm00")
 
         },2000)

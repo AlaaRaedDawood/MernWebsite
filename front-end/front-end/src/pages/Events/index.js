@@ -40,8 +40,8 @@ export default function Event (){
     }
     const submitHandler = async (evt) => { 
         evt.preventDefault();
-        const user_id = localStorage.getItem('userID');
-
+       // const user_id = localStorage.getItem('userID');
+        const user = localStorage.getItem('userToken');
         const eventData = new FormData();
        
         eventData.append("thumbnail", thumbnail)
@@ -60,14 +60,26 @@ export default function Event (){
                 date !== "" &&
                 thumbnail !== null
             ) {
-                console.log("Event has been sent")
-                await api.post("/event/createEvent", eventData, { headers: { user_id } })
-                console.log(eventData)
-                console.log("Event has been saved")
-                setSuccessValue(true);
+                if(parseFloat(price)){
+                    console.log("Event has been sent")
+                    await api.post("/event/createEvent", eventData, { headers: { user } })
+                    console.log(eventData)
+                    console.log("Event has been saved")
+                    setSuccessValue(true);
+                    setTimeout(() => {
+                        resetIT()
+                    }, 1000)
+
+                }else{
+                    setErrorMessage(true)
                 setTimeout(() => {
-                    resetIT()
-                }, 1000)
+                    setErrorMessage(false)
+                }, 5000)
+                //setSuccessValue("missing");
+                console.log("Make sure price is number")
+
+                }
+               
             } else {
                 setErrorMessage(true)
                 setTimeout(() => {
@@ -133,7 +145,7 @@ return (
 
          <Button type='submit'>Create Event</Button>
     </form>
-    { (errorMessage) ? <Alert className="event-validation" color="danger"> Missing required information</Alert> : "" }
+    { (errorMessage) ? <Alert className="event-validation" color="danger"> Make sure that the data is correct and not missing </Alert> : "" }
     { (success) ? <Alert color="success" className="event-validation"> The event is saved successfully </Alert> : "" }
     </Container>
     
