@@ -3,6 +3,8 @@ import DashboardEvent from  './DashboardEvent'
 import api from '../../Services/api';
 import { Button, ButtonGroup } from 'reactstrap';
 import './dashboardgrid.css' ;
+import socketio from 'socket.io-client';
+
 
  function Dashboard ({ history }){
     
@@ -29,6 +31,7 @@ import './dashboardgrid.css' ;
     //     console.log(url) ;
            
     // }
+   
     const getEvents = async (filter) => {
         if(filter == "myEvents"){
             console.log("allllllllaaaaaaaa " +filter);
@@ -50,10 +53,13 @@ import './dashboardgrid.css' ;
         
     }
 
-
+    useEffect(() => {
+         const socket = socketio('http://localhost:8000/');
+    },[])
     useEffect( 
     getEvents
     ,[]);
+    
     return (
         <>
             <Button style={{backgroundColor:'#FF3D40' , margin:'10px'}} onClick={logOutHandler}>Log Out</Button>
