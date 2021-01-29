@@ -20,13 +20,13 @@ routes.get('/status' , (req , res) => {
 
 
 //registeration to an event
-routes.post('/regist/:eventId' , RegisterationController.create);
-routes.delete('/deleteAllregisterations' , RegisterationController.deleteAllRegisterations);
+routes.post('/regist/:eventId' , verifytoken , RegisterationController.create);
+routes.delete('/deleteAllregisterations' , verifytoken, RegisterationController.deleteAllRegisterations);
 routes.get('/registeration/:registeration_id' , RegisterationController.getRegisterationbyId);
 //approveRequest
-routes.post('/registeration/:registerationId/approve' , ApproveRegisterationController.approveRequest);
+routes.post('/registeration/:registerationId/approve', verifytoken , ApproveRegisterationController.approveRequest);
 //rejectRequest
-routes.post('/registeration/:registerationId/reject' , RejectRegisterationController.rejectRequest);
+routes.post('/registeration/:registerationId/reject',verifytoken , RejectRegisterationController.rejectRequest);
 //login
 routes.post('/login' , LogInController.logIn);
 //dashboard

@@ -41,11 +41,19 @@ try {
 } catch (error) {
 	console.log(error)
 }
-
+const connectUsers = {}
 io.on('connection', socket => {
-   console.log("user connected " + socket.id )
+	const { user } = socket.handshake.query
+	connectUsers[user] = socket.id
+    console.log(connectUsers);
 })
 
+app.use((req, res, next) => {
+	req.io = io
+	req.connectUsers = connectUsers
+	console.log("i am here ");
+	return next()
+})
 app.use(cors())
 app.use(express.json())
 app.use("/files", express.static(path.resolve(__dirname, "..", "files")))

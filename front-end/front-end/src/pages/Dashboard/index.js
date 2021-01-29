@@ -1,7 +1,7 @@
 import React , {useState , useEffect}from 'react' ;
 import DashboardEvent from  './DashboardEvent'
 import api from '../../Services/api';
-import { Button, ButtonGroup } from 'reactstrap';
+import { Button, ButtonGroup , Alert} from 'reactstrap';
 import './dashboardgrid.css' ;
 import socketio from 'socket.io-client';
 
@@ -13,7 +13,9 @@ import socketio from 'socket.io-client';
     const user_id = localStorage.getItem('userID');
     const [rSelected,setRSelected] = useState(null);
     const [f ,setF] = useState(null);
-  
+    const [messageHandler , setMessageHandler] = useState('');
+    const [success , setSuccess] = useState(false);
+    const [error , setError] = useState(false);
     const logOutHandler = ()=> {
         localStorage.removeItem('userID');
         localStorage.removeItem('userToken');
@@ -25,12 +27,36 @@ import socketio from 'socket.io-client';
         getEvents(query);
         
     }
-    // const deleteEventHandler = async (event_id) => {
-    //     const url = `/events/${event_id}`
-    //     const response =  await api.delete(url) ;
-    //     console.log(url) ;
+
+    const registerationEventHandler = async (event) => {
+        
+        try{
+           // console.log("subscribbeeeee " ,event);
+            const url = `/regist/${event._id}`
+            const response =  await api.post(url , {}, { headers: { user } })
+            console.log(response.data);
+            setMessageHandler(`Event ${event.title} was sent successfully`);
+            setSuccess(true);
+            setTimeout( () => {
+                setSuccess(false);
+                setMessageHandler(`Subscribed to ${event.title}`);
+            } ,
+                2000)
+        }catch(error){
+            console.log(`error occured is ${error}`)
+            setMessageHandler('error occured during subscribtion');
+            setError(true);
+            setTimeout( () => {
+                setError(false);
+                setMessageHandler('');
+            } ,
+                2000)
+
+        }
+        
+        
            
-    // }
+    }
    
     const getEvents = async (filter) => {
         if(filter == "myEvents"){
@@ -54,7 +80,9 @@ import socketio from 'socket.io-client';
     }
 
     useEffect(() => {
-         const socket = socketio('http://localhost:8000/');
+         const socket = socketio('http://localhost:8000/' , { query : {user : user_id}});
+
+         socket.on('registration_request' , data => console.log(data))
     },[])
     useEffect( 
     getEvents
@@ -80,11 +108,21 @@ import socketio from 'socket.io-client';
                {events.map((event) => ( 
                    <li key={event._id}>
                      <DashboardEvent event={event} filterHandler={checkEvents} filterd={rSelected} > </DashboardEvent>
-                     <Button id="subButton" color="primary">Subscribe</Button>
+                     <Button id="subButton" color="primary" onClick={() => registerationEventHandler(event)}>Subscribe</Button>
                    </li>
                  ))
                 } 
             </ul>
+            {
+                error ? (
+                    <Alert className="event-validation" color="danger"> {messageHandler} </Alert>
+                ) : ""
+            }
+            {
+                success ? (
+                    <Alert className="event-validation" color="success"> {messageHandler}</Alert>
+                ) : ""
+            }
             
         </>
        

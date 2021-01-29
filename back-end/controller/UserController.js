@@ -2,6 +2,7 @@
 const Uuser = require('../Models/User');
 const bcrypt = require('bcrypt');
 const { deleteAllevents } = require('./EventController');
+const jwt = require('jsonwebtoken');
 module.exports = {
     async createUser (req,res){
         try{
@@ -20,12 +21,18 @@ module.exports = {
                     password : hashpassword
                     } 
                 )
-                
-                return res.json(uuser1);
+                return jwt.sign({ user: uuser1 }, 'secret', (err, token) => {
+                    if(err) return res.status(403).json({ message : `error occured ${err}`}) 
+					return res.status(200).json({
+						user: token,
+						user_id: uuser1._id
+					})
+				})
+               // return res.json(uuser1);
                 
             }
             
-            return res.status(200).json({
+            return res.status(400).json({
                 message : 'the user already exist' 
             })
             

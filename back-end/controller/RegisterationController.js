@@ -4,33 +4,45 @@ const Registration = require('../Models/Registration');
 const jwt = require('jsonwebtoken');
 module.exports = {
     async create(req, res) {
-        const { user_id } = req.headers;
-        const { eventId } = req.params;
-        const { date } = req.body;
-        console.log(user_id);
-        try{
-            const registration = await Registration.create({
-                user: user_id,
-                event: eventId,
-                date
-            })
-    
-            await registration
-                .populate('event')
-                .populate('user','-password') // we add second argument so we remove the password
-                .execPopulate();
-            return jwt.sign({ user: registration }, 'secret', (err, token) => {
-				return res.json({
-					user: token,
-					user_id: registration._id
-				})
-			})
-            //return res.json(registration)
-        }
-        catch(err){
-            throw Error(`Error while Registering new user :  ${err}`)
-        }
-    }, 
+        console.log("welcome ");
+         jwt.verify(req.token, 'secret', async (err, authData) => {
+			if (err) {
+				res.sendStatus(401).json({'mmmmmm' : 'kkkk'})
+            } 
+            else {
+                
+                const { eventId } = req.params;
+                
+                console.log( { eventId })
+                    try{
+        
+                        const registration = await Registration.create({
+                            user: authData.user._id,
+                            event: eventId
+                        })
+                
+                        await registration
+                            .populate('event')
+                            .populate('user','-password') // we add second argument so we remove the password
+                            .execPopulate();
+                        console.log("senttttt to "  );
+                        const ownerSocket = req.connectUsers[registration.event.user]
+
+                        if (ownerSocket) {
+                            console.log("done senttttt to " + ownerSocket );
+                             req.io.to(ownerSocket).emit('registration_request', registration)
+                        }
+                        
+                        return res.status(200).json(registration)
+                    }
+                    catch(err){
+                        throw Error(`Error while Registering new user :  ${err}`)
+                    }
+                          
+                }});     
+      
+}
+    , 
     async getRegisterationbyId(req , res){
         const { registeration_id } = req.params ;
         try{
