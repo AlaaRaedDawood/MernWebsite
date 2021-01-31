@@ -20,11 +20,6 @@ import socketio from 'socket.io-client';
     const [dropdownOpen, setDropDownOpen] = useState(false);
     const toggle = () => setDropDownOpen(!dropdownOpen);
     
-    const logOutHandler = ()=> {
-        localStorage.removeItem('userID');
-        localStorage.removeItem('userToken');
-        history.push('/login');
-    }
     const checkEvents = (query) => {
         setRSelected(query);
         setF(query);
@@ -61,7 +56,63 @@ import socketio from 'socket.io-client';
         
            
     }
-   
+    const approveRegisteration = async (registeration_id) => {
+        const url = `/registeration/${registeration_id}/approve` ;
+        console.log("ng7nnna " + url);
+        const respond = await api.post(url ,{},{headers : {user}})
+        if(respond){
+            console.log("ng7nnna " + true);
+            setSuccess(true);
+            setMessageHandler('successfully approved the request');
+            setTimeout( () => {
+                setSuccess(false);
+                setMessageHandler('');
+                eventRequestRemoverHandler(registeration_id);
+            } ,
+                2000)
+        }
+        else{
+            setError(true);
+            setMessageHandler('Error Occured');
+            setTimeout( () => {
+                setError(false);
+                setMessageHandler('');
+                eventRequestRemoverHandler(registeration_id);
+            } ,
+                2000)
+        }
+        // eventRequestRemoverHandler(registeration_id);
+    }
+    const rejectRegisteration = async (registeration_id) => {
+        const url = `/registeration/${registeration_id}/reject` ;
+        console.log("ng7nnna " + url);
+        const respond = await api.post(url ,{},{headers : {user}})
+        if(respond){
+            console.log("ng7nnna  " + false);
+            setSuccess(true);
+            setMessageHandler('successfully rejected the request');
+            setTimeout( () => {
+                setSuccess(false);
+                setMessageHandler('');
+                eventRequestRemoverHandler(registeration_id);
+            } ,
+                2000)
+        }else{
+            setError(true);
+            setMessageHandler('Error Occured');
+            setTimeout( () => {
+                setError(false);
+                setMessageHandler('');
+                eventRequestRemoverHandler(registeration_id);
+            } ,
+                2000)
+        }
+        
+    }
+    const eventRequestRemoverHandler = (registeration_id) =>{
+        const new_Events_Requests = eventsRequest.filter((eventsRequest) => eventsRequest._id !== registeration_id);
+        setEventsRequest(new_Events_Requests);
+    }
     const getEvents = async (filter) => {
         if(filter == "myEvents"){
             console.log("allllllllaaaaaaaa " +filter);
@@ -105,19 +156,20 @@ import socketio from 'socket.io-client';
                 {eventsRequest.map(request => {
                     console.log(request)
                     return (
-                        <li key={request.id}>
+                        <li key={request._id}>
                             <div>
                                 <strong>{request.user.email} </strong> is requesting to register to your Event <strong>{request.event.title}</strong>
                             </div>
                             <ButtonGroup>
 
-                                <Button color="secondary" onClick={() => { }}>Accept</Button>
-                                <Button color="danger" onClick={() => { }}>Cancel</Button>
+                                <Button color="secondary" onClick={() => { approveRegisteration(request._id) }}>Accept</Button>
+                                <Button color="danger" onClick={() => { rejectRegisteration(request._id)}}>Cancel</Button>
                             </ButtonGroup>
                         </li>
                     )
                 })}
-
+                {success? <Alert>{messageHandler}</Alert> : ""}
+                {error? <Alert>{messageHandler}</Alert> : ""}
             </ul>
             {/* <Button style={{backgroundColor:'#FF3D40' , margin:'10px'}} onClick={logOutHandler}>Log Out</Button>
             <Button style={{backgroundColor:'tomato' , margin:'10px'}} onClick={() => history.push("/event")}>Create Event</Button> */}

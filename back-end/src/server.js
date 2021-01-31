@@ -45,13 +45,13 @@ const connectUsers = {}
 io.on('connection', socket => {
 	const { user } = socket.handshake.query
 	connectUsers[user] = socket.id
-    console.log(connectUsers);
+    // console.log(connectUsers);
 })
 
 app.use((req, res, next) => {
 	req.io = io
 	req.connectUsers = connectUsers
-	console.log("i am here ");
+	// console.log("i am here ");
 	return next()
 })
 app.use(cors())
@@ -64,4 +64,3 @@ server.listen(PORT , () =>
     console.log(`listenning to port ${PORT}`)
 })
 
-console.log("done")
