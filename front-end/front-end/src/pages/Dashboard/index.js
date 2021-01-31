@@ -1,7 +1,7 @@
-import React , {useState , useEffect}from 'react' ;
+import React , {useState , useEffect , useMemo }from 'react' ;
 import DashboardEvent from  './DashboardEvent'
 import api from '../../Services/api';
-import { Button, ButtonGroup , Alert} from 'reactstrap';
+import { Button, ButtonGroup, Alert, DropdownItem, DropdownMenu, DropdownToggle , ButtonDropdown } from 'reactstrap';
 import './dashboardgrid.css' ;
 import socketio from 'socket.io-client';
 
@@ -16,6 +16,10 @@ import socketio from 'socket.io-client';
     const [messageHandler , setMessageHandler] = useState('');
     const [success , setSuccess] = useState(false);
     const [error , setError] = useState(false);
+    const [eventsRequest, setEventsRequest] = useState([])
+    const [dropdownOpen, setDropDownOpen] = useState(false);
+    const toggle = () => setDropDownOpen(!dropdownOpen);
+    
     const logOutHandler = ()=> {
         localStorage.removeItem('userID');
         localStorage.removeItem('userToken');
@@ -79,36 +83,78 @@ import socketio from 'socket.io-client';
         
     }
 
-    useEffect(() => {
-         const socket = socketio('http://localhost:8000/' , { query : {user : user_id}});
 
-         socket.on('registration_request' , data => console.log(data))
-    },[])
+    const socket = useMemo(
+        () =>
+            socketio('http://localhost:8000/', { query: { user: user_id } }),
+        [user_id]
+    );
+
+    useEffect(() => {
+        socket.on('registration_request', data => setEventsRequest([...eventsRequest, data]));
+    }, [eventsRequest, socket])
+
+
     useEffect( 
     getEvents
     ,[]);
     
     return (
         <>
-            <Button style={{backgroundColor:'#FF3D40' , margin:'10px'}} onClick={logOutHandler}>Log Out</Button>
-            <Button style={{backgroundColor:'tomato' , margin:'10px'}} onClick={() => history.push("/event")}>Create Event</Button>
+            <ul className="notifications">
+                {eventsRequest.map(request => {
+                    console.log(request)
+                    return (
+                        <li key={request.id}>
+                            <div>
+                                <strong>{request.user.email} </strong> is requesting to register to your Event <strong>{request.event.title}</strong>
+                            </div>
+                            <ButtonGroup>
+
+                                <Button color="secondary" onClick={() => { }}>Accept</Button>
+                                <Button color="danger" onClick={() => { }}>Cancel</Button>
+                            </ButtonGroup>
+                        </li>
+                    )
+                })}
+
+            </ul>
+            {/* <Button style={{backgroundColor:'#FF3D40' , margin:'10px'}} onClick={logOutHandler}>Log Out</Button>
+            <Button style={{backgroundColor:'tomato' , margin:'10px'}} onClick={() => history.push("/event")}>Create Event</Button> */}
             <h1 className="eventgrid">Sport's Events</h1>
             <div className="fitbuttons">
-                <ButtonGroup className="eventgrid_button">
+            <ButtonDropdown  isOpen={dropdownOpen} toggle={toggle}>
+                <DropdownToggle className="eventgrid_button"  color="primary" caret>
+                       Filter
+                </DropdownToggle>
+                <DropdownMenu>
+                   
+                    <DropdownItem onClick={() => checkEvents(null)} active={rSelected === null}>All Sport</DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem onClick={() => checkEvents("myEvents")} active={rSelected === "myEvents"}>My Events</DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem onClick={() => checkEvents("running")} active={rSelected === "running"}>Running</DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem onClick={() => checkEvents("swimming")} active={rSelected === "swimming"}>Swimming</DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem onClick={() => checkEvents("cycling")} active={rSelected === "cycling"}>Cycling</DropdownItem>
+                </DropdownMenu>
+           </ButtonDropdown>
+                {/* <ButtonGroup className="eventgrid_button">
                      <Button color="primary" onClick={() => checkEvents(null)} active={rSelected === null}>All Sport</Button>
                      <Button color="primary" onClick={() => checkEvents("myEvents")} active={rSelected === "myEvents"}>My Events</Button>
                      <Button color="primary" onClick={() => checkEvents("running")} active={rSelected === "running"}>Running</Button>
                      <Button color="primary" onClick={() => checkEvents("swimming")} active={rSelected === "swimming"}>Swimming</Button>
                      <Button color="primary" onClick={() => checkEvents("cycling")} active={rSelected === "cycling"}>Cycling</Button>
                 </ButtonGroup>
-                
+                 */}
             </div>
             
             <ul  className="eventgrid">
                {events.map((event) => ( 
                    <li key={event._id}>
                      <DashboardEvent event={event} filterHandler={checkEvents} filterd={rSelected} > </DashboardEvent>
-                     <Button id="subButton" color="primary" onClick={() => registerationEventHandler(event)}>Subscribe</Button>
+                     <Button style={{marginTop: "auto"}}id="subButton" color="primary" onClick={() => registerationEventHandler(event)}>Subscribe</Button>
                    </li>
                  ))
                 } 

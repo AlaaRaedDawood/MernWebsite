@@ -1,12 +1,17 @@
 //import logo from './logo.svg';
 import './App.css';
-import {Container} from'reactstrap'
 import Routes from './routes';
+import {ContextWrapper} from './userContext'
 
 function App() {
   return (
     <div className="content">
-      <Routes></Routes>
+    <ContextWrapper>
+    
+     
+     <Routes></Routes>
+     
+    </ContextWrapper>
     </div>
   );
 }

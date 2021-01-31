@@ -1,11 +1,12 @@
 const Events = require("../Models/Event");
 const Users = require("../Models/User");
 const jwt = require('jsonwebtoken');
+
 module.exports = {
     async getEventById (req,res){
         jwt.verify(req.token, 'secret', async (err, authData) => {
 			if (err) {
-				res.sendStatus(401)
+				res.status(401).json({message : `error occured ${err}`})
 			} else {
         const {eventID} = req.params;
         console.log(eventID);
@@ -17,7 +18,7 @@ module.exports = {
         catch (error) {
             return res.status(404).json(
                 {
-                    'message' : 'event not fount' 
+                    'message' : `event not fount ${error}` 
                 }
             )
         } 

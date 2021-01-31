@@ -1,13 +1,14 @@
   
-import React, { useState } from 'react';
+import React, { useState , useContext } from 'react';
 import api from '../../Services/api'
 import { Container, Button, Form, FormGroup, Input , Alert } from 'reactstrap';
+import {UserContext}  from '../../userContext'
 import "./login.css"
 export default function Login({ history }) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [errorMessage, setErrorMessage] = useState(false)
-   
+    const { isLoggedIn, setIsloggedIn } = useContext(UserContext);
         
         const handleSubmit = async evt => {
 
@@ -24,6 +25,7 @@ export default function Login({ history }) {
                 if (user && userId) {
                     localStorage.setItem('userID', userId)
                     localStorage.setItem('userToken', user)
+                    setIsloggedIn(true);
                     history.push('/')
                 } else {
                     const { message } = response.data

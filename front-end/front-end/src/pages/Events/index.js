@@ -109,10 +109,10 @@ export default function Event ({ history }){
     
 return (
     <>
-    <Button id="dashBoardButton" onClick={() => history.push('/')} >Dashboard</Button>
+    {/* <Button id="dashBoardButton" onClick={() => history.push('/')} >Dashboard</Button>
     <Button id="logOutButton" onClick={logOutHandler}>Log Out</Button>
     <br></br>
-    <br></br>
+    <br></br> */}
     <h1>Create Event</h1>
     <Container key={formKey}>
         

@@ -1,10 +1,12 @@
   
-import React, { useState } from 'react';
+import React, { useState  , useContext} from 'react';
 import api from '../../Services/api'
 import { Container, Button, Form, FormGroup, Input ,Alert } from 'reactstrap';
 import "../Login/login.css"
+import {UserContext } from '../../userContext' ;
 export default function Login({ history }) {
     const [email, setEmail] = useState("")
+    const { isLoggedIn, setIsloggedIn } = useContext(UserContext);
     const [password, setPassword] = useState("")
     const [firstName ,setFirstName] = useState("");
     const [lastName ,setlastName] = useState("");
@@ -22,7 +24,9 @@ export default function Login({ history }) {
                     localStorage.setItem('userID', userId);
                     localStorage.setItem('userToken', user);
                     console.log('done');
+                    setIsloggedIn(true);
                     history.push('/');
+                    
                 } else {
                     const { message } = response.data ;
                     console.log(message)
