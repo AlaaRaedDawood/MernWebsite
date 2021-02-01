@@ -22,7 +22,9 @@ routes.get('/status' , (req , res) => {
 //registeration to an event
 routes.post('/regist/:eventId' , verifytoken , RegisterationController.create);
 routes.delete('/deleteAllregisterations' , verifytoken, RegisterationController.deleteAllRegisterations);
-routes.get('/registeration/:registeration_id' , RegisterationController.getRegisterationbyId);
+routes.get('/registeration/:registeration_id' , verifytoken, RegisterationController.getRegisterationbyId);
+//get My registerations 
+routes.get('/myregisteration/:owner' ,verifytoken,  RegisterationController.getMyRegisteration);
 //approveRequest
 routes.post('/registeration/:registerationId/approve', verifytoken , ApproveRegisterationController.approveRequest);
 //rejectRequest

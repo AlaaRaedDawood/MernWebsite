@@ -5,6 +5,7 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Event from './pages/Events';
 import TopNav from './components/Navbar'
+import RegisterationsView from './pages/Registerations' ;
 
 
 export default function Routes() {
@@ -17,6 +18,7 @@ export default function Routes() {
                 <Route path='/register' exact component={Register} />
                 <Route path='/' exact component={Dashboard} />
                 <Route path='/event' component={Event} />
+                <Route path='/registeration' component={RegisterationsView} />
             </Switch>
         </BrowserRouter>
     );

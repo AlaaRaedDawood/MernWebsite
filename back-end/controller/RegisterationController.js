@@ -25,7 +25,14 @@ module.exports = {
                             .populate('event')
                             .populate('user','-password') // we add second argument so we remove the password
                             .execPopulate();
-                        console.log("senttttt to "  );
+                        
+                        registration.owner = authData.user._id;
+                        registration.eventTitle =  registration.event.title ;  
+	                    registration.eventPrice = registration.event.price ; 
+	                    registration.userEmail = registration.user.email ;
+                        registration.eventDate= registration.event.date ; 
+                        await registration.save();
+                        
                         const ownerSocket = req.connectUsers[registration.event.user]
 
                         if (ownerSocket) {
@@ -36,7 +43,7 @@ module.exports = {
                         return res.status(200).json(registration)
                     }
                     catch(err){
-                        throw Error(`Error while Registering new user :  ${err}`)
+                        throw Error(`Error while creating new registeration :  ${err}`)
                     }
                           
                 }});     
@@ -46,15 +53,40 @@ module.exports = {
     async getRegisterationbyId(req , res){
         const { registeration_id } = req.params ;
         try{
+            jwt.verify(req.token, 'secret', async (err, authData) => {
+            if(err){
+                return res.status(400).json({"message" : `error existed in ${err}`});
+            }
             const registeration = await Registration.findById(registeration_id);
             if(!registeration){
                 return res.status(404).json({"message" : "there is no registeration by this id"})
             }
            return res.status(200).json(registeration);
+        })
         }catch(err){
             throw Error(`Error while Registering new user :  ${err}`)
         }
     } , 
+    async getMyRegisteration(req , res){
+        const { owner } = req.params ;
+        console.log("owneerr "  + owner);
+        try{
+            jwt.verify(req.token, 'secret', async (err, authData) => {
+            if(err){
+                return res.status(400).json({"message" : `error existed in ${err}`});
+            }
+            const registeration = await Registration.find({ owner });
+            if(!registeration){
+                return res.status(404).json({"message" : "there is no registeration by this id"})
+            }
+            console.log("hellloooooooooooo " );
+            console.log(registeration);
+           return res.status(200).json(registeration);
+        })
+        }catch(err){
+            return res.status(404).json({"message" : `error ${err}`})
+        }
+    } ,
     async deleteAllRegisterations(req,res){
         try{
             const response = await Registration.deleteMany({});

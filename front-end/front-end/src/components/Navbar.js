@@ -29,6 +29,9 @@ const TopNav = () => {
             <NavItem>
               <Link to="/event">Create Event</Link>
             </NavItem>
+            <NavItem>
+              <Link to="/registeration">View My Registeration</Link>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>
