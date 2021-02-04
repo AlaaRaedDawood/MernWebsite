@@ -4,6 +4,7 @@ const RegistrationSchema = new mongoose.Schema({
     date: () => Date.now(),
     approved: Boolean,
     owner : String ,
+    eventOwner: String ,
     eventTitle: String,
 	eventPrice: String,
 	userEmail:String,

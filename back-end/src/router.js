@@ -25,6 +25,8 @@ routes.delete('/deleteAllregisterations' , verifytoken, RegisterationController.
 routes.get('/registeration/:registeration_id' , verifytoken, RegisterationController.getRegisterationbyId);
 //get My registerations 
 routes.get('/myregisteration/:owner' ,verifytoken,  RegisterationController.getMyRegisteration);
+//get My registerationsResults
+routes.get('/myregisterationResult/:eventOwner' , verifytoken , RegisterationController.getMyRegisterationResults);
 //approveRequest
 routes.post('/registeration/:registerationId/approve', verifytoken , ApproveRegisterationController.approveRequest);
 //rejectRequest

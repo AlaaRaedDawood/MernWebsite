@@ -32,11 +32,11 @@ export default function Event ({ history }){
     const preview = useMemo(() => {
         return thumbnail ? URL.createObjectURL(thumbnail) : null;
     }, [thumbnail])
-    const logOutHandler = () => {
-        localStorage.removeItem('userID');
-        localStorage.removeItem('userToken');
-        history.push('/login')
-    }
+    // const logOutHandler = () => {
+    //     localStorage.removeItem('userID');
+    //     localStorage.removeItem('userToken');
+    //     history.push('/login')
+    // }
     const resetIT = () => {
        setFormKey(formKey + 1) 
        setSuccessValue(false)

@@ -24,13 +24,16 @@ const TopNav = () => {
         <Collapse isOpen={!collapsed} navbar>
           <Nav navbar>
             <NavItem>
-             <Link to="/">Dashboard</Link>
+             <Link style={{color:"gray"}} to="/">Dashboard</Link>
             </NavItem>
             <NavItem>
-              <Link to="/event">Create Event</Link>
+              <Link style={{color:"gray"}} to="/event">Create Event</Link>
             </NavItem>
             <NavItem>
-              <Link to="/registeration">View My Registeration</Link>
+              <Link  style={{color:"gray"}} to="/registeration">Registeration Request</Link>
+            </NavItem>
+            <NavItem>
+              <Link style={{color:"gray"}} to="/registerationresult">Registeration Results</Link>
             </NavItem>
           </Nav>
         </Collapse>

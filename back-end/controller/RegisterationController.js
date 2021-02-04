@@ -27,6 +27,7 @@ module.exports = {
                             .execPopulate();
                         
                         registration.owner = authData.user._id;
+                        registration.eventOwner = registration.event.user._id ;
                         registration.eventTitle =  registration.event.title ;  
 	                    registration.eventPrice = registration.event.price ; 
 	                    registration.userEmail = registration.user.email ;
@@ -68,6 +69,26 @@ module.exports = {
         }
     } , 
     async getMyRegisteration(req , res){
+        const { eventOwner } = req.params ;
+        console.log("owneerr "  + eventOwner);
+        try{
+            jwt.verify(req.token, 'secret', async (err, authData) => {
+            if(err){
+                return res.status(400).json({"message" : `error existed in ${err}`});
+            }
+            const registeration = await Registration.find({ eventOwner });
+            if(!registeration){
+                return res.status(404).json({"message" : "there is no registeration by this id"})
+            }
+            console.log("hellloooooooooooo " );
+            console.log(registeration);
+           return res.status(200).json(registeration);
+        })
+        }catch(err){
+            return res.status(404).json({"message" : `error ${err}`})
+        }
+    } ,
+    async getMyRegisterationResults(req , res){
         const { owner } = req.params ;
         console.log("owneerr "  + owner);
         try{

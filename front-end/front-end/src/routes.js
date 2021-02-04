@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard'
 import Event from './pages/Events';
 import TopNav from './components/Navbar'
 import RegisterationsView from './pages/Registerations' ;
-
+import RegisterationsResultsView from './pages/RegisterationsResult'
 
 export default function Routes() {
     //const { isLoggedIn , setIsLoggedIn} = useContext(UserContext)
@@ -18,6 +18,7 @@ export default function Routes() {
                 <Route path='/register' exact component={Register} />
                 <Route path='/' exact component={Dashboard} />
                 <Route path='/event' component={Event} />
+                <Route path='/registerationresult' component={RegisterationsResultsView} />
                 <Route path='/registeration' component={RegisterationsView} />
             </Switch>
         </BrowserRouter>

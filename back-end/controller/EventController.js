@@ -58,7 +58,7 @@ module.exports = {
      async deleteEvent(req,res){
        
         const {eventID} =  req.params ;
-        console.log(eventID) ;
+        //console.log(eventID) ;
         try{
             jwt.verify(req.token, 'secret', async (err, authData) => {
                 if (err) {
@@ -67,7 +67,7 @@ module.exports = {
     
                 else{
                     await Event.findByIdAndDelete(eventID)
-                    console.log("event deleted")
+                   // console.log("event deleted")
                     res.status(200).send("done");
                 }
             })
@@ -78,7 +78,7 @@ module.exports = {
             })
         }
     }, async getAllEvents(req,res){
-        console.log(req.params);
+        //console.log(req.params);
         const { eventType } = req.params ;
         const query = {"sport" : eventType} || {} 
         
