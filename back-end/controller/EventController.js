@@ -13,7 +13,6 @@ module.exports = {
              }
 
             else{
-                  //console.log("alaa hiii " ) ;
             const {title , description , price , sport , date} = req.body;
             const  user_id  = authData.user._id; 
             const { filename } = req.file;
@@ -56,10 +55,8 @@ module.exports = {
     
 
      async deleteEvent(req,res){
-       
-        const {eventID} =  req.params ;
-        //console.log(eventID) ;
-        try{
+       const {eventID} =  req.params ;
+       try{
             jwt.verify(req.token, 'secret', async (err, authData) => {
                 if (err) {
                    return res.status(403).json({ message : `error is detected ${err}`});
@@ -67,7 +64,6 @@ module.exports = {
     
                 else{
                     await Event.findByIdAndDelete(eventID)
-                   // console.log("event deleted")
                     res.status(200).send("done");
                 }
             })
@@ -78,7 +74,6 @@ module.exports = {
             })
         }
     }, async getAllEvents(req,res){
-        //console.log(req.params);
         const { eventType } = req.params ;
         const query = {"sport" : eventType} || {} 
         
@@ -106,11 +101,5 @@ module.exports = {
             }
           });
         
-        // const result = async () => await Event.deleteMany()
-        // .then(function(){ 
-        //     console.log("Data deleted"); // Success 
-        // }).catch(function(error){ 
-        //     console.log(error); // Failure 
-        // }); 
     }
 }

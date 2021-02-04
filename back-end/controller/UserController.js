@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 module.exports = {
     async createUser (req,res){
         try{
-            //console.log("alaa hiii " ) ;
             const {firstName , lastName , email , password} = req.body;
             //bcrypt password 
             const hashpassword = await bcrypt.hash(password , 10);
@@ -44,7 +43,6 @@ module.exports = {
     async getUserById (req,res){
         
         const {userID} = req.params;
-        console.log(userID);
         try{
             const user = await Uuser.findById(userID);
             return res.json(user)

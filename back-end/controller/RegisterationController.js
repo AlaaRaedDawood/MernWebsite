@@ -4,7 +4,6 @@ const Registration = require('../Models/Registration');
 const jwt = require('jsonwebtoken');
 module.exports = {
     async create(req, res) {
-        console.log("welcome ");
          jwt.verify(req.token, 'secret', async (err, authData) => {
 			if (err) {
 				res.sendStatus(401).json({'mmmmmm' : 'kkkk'})
@@ -12,8 +11,6 @@ module.exports = {
             else {
                 
                 const { eventId } = req.params;
-                
-                console.log( { eventId })
                     try{
         
                         const registration = await Registration.create({
@@ -37,7 +34,6 @@ module.exports = {
                         const ownerSocket = req.connectUsers[registration.event.user]
 
                         if (ownerSocket) {
-                            console.log("done senttttt to " + ownerSocket );
                              req.io.to(ownerSocket).emit('registration_request', registration)
                         }
                         
@@ -70,7 +66,6 @@ module.exports = {
     } , 
     async getMyRegisteration(req , res){
         const { eventOwner } = req.params ;
-        console.log("owneerr "  + eventOwner);
         try{
             jwt.verify(req.token, 'secret', async (err, authData) => {
             if(err){
@@ -80,8 +75,6 @@ module.exports = {
             if(!registeration){
                 return res.status(404).json({"message" : "there is no registeration by this id"})
             }
-            console.log("hellloooooooooooo " );
-            console.log(registeration);
            return res.status(200).json(registeration);
         })
         }catch(err){
@@ -90,7 +83,6 @@ module.exports = {
     } ,
     async getMyRegisterationResults(req , res){
         const { owner } = req.params ;
-        console.log("owneerr "  + owner);
         try{
             jwt.verify(req.token, 'secret', async (err, authData) => {
             if(err){
@@ -100,8 +92,6 @@ module.exports = {
             if(!registeration){
                 return res.status(404).json({"message" : "there is no registeration by this id"})
             }
-            console.log("hellloooooooooooo " );
-            console.log(registeration);
            return res.status(200).json(registeration);
         })
         }catch(err){

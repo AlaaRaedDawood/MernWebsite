@@ -9,7 +9,6 @@ module.exports = {
 				res.status(401).json({message : `error occured ${err}`})
 			} else {
         const {eventID} = req.params;
-        console.log(eventID);
         try{
             const events = await Events.findById(eventID);
             return res.status(200).json({authData , events})
@@ -36,8 +35,6 @@ module.exports = {
                 
         const { sport } = req.params;
         const query = sport ? { sport } : {}
-       
-        console.log( query );
         try{
         const events = await Events.find(query)
         if (events){
@@ -54,13 +51,11 @@ module.exports = {
       
     }, async getEventByUserId(req,res){
         jwt.verify(req.token, 'secret', async (err, authData) => {
-            // console.log("hh " + JSON.stringify(authData));
-            // console.log("hh22 " + authData.user._id);
+
 			if (err) {
 				res.sendStatus(401)
 			} else {
         const user_id = authData.user._id;
-        console.log(user_id)
         try{
             const events = await Events.find({ user : user_id })
             if (events){
