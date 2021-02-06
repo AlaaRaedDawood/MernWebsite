@@ -44,7 +44,7 @@ import api from '../../Services/api';
             {/* <header style={{ backgroundImage:  `url(${props.event.thumbnail_url})` }} >
                 Helllo
             </header> */}
-            <img src= {props.event.thumbnail_url} alt="GeeksforGeeks logo "/> 
+            {/* <img src= {props.event.thumbnail_url} alt="GeeksforGeeks logo "/>  */}
            
             <strong>{props.event.title}</strong>
             <span>Event Date: {moment(props.event.date).format('l')}</span>

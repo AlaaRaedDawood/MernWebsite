@@ -15,7 +15,7 @@ module.exports = {
             else{
             const {title , description , price , sport , date} = req.body;
             const  user_id  = authData.user._id; 
-            const { filename } = req.file;
+            // const { filename } = req.file;
             
             //check if user already exists 
             const user = await User.findById(user_id) ; 
@@ -33,7 +33,7 @@ module.exports = {
                     price: parseFloat(price) ,
                     sport ,
                     user : user_id ,
-                    thumbnail : filename ,
+                    // thumbnail : filename ,
                     date : date
                 } 
             )

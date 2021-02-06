@@ -11,7 +11,7 @@ export default function Event ({ history }){
     const [title,setTitle] = useState('');
     const [description,setDescription] = useState('');
     const [price,setPrice] = useState('');
-    const [thumbnail,setThumbnail] = useState(null);
+    // const [thumbnail,setThumbnail] = useState(null);
     const [date,setDate] = useState('');
     const [errorMessage, setErrorMessage] = useState(false);
     const [success , setSuccessValue] = useState(false);
@@ -29,14 +29,11 @@ export default function Event ({ history }){
        
         ,[]);
 
-    const preview = useMemo(() => {
-        return thumbnail ? URL.createObjectURL(thumbnail) : null;
-    }, [thumbnail])
-    // const logOutHandler = () => {
-    //     localStorage.removeItem('userID');
-    //     localStorage.removeItem('userToken');
-    //     history.push('/login')
-    // }
+    // const preview = useMemo(() => {
+    //     return thumbnail ? URL.createObjectURL(thumbnail) : null;
+    // }, [thumbnail])
+
+
     const resetIT = () => {
        setFormKey(formKey + 1) 
        setSuccessValue(false)
@@ -44,7 +41,7 @@ export default function Event ({ history }){
        setTitle('');
        setDescription('');
        setPrice('');
-       setThumbnail(null);
+      /// setThumbnail(null);
        setDate('');
        setErrorMessage(false);
        setSuccessValue(false);
@@ -56,21 +53,20 @@ export default function Event ({ history }){
         const user = localStorage.getItem('userToken');
         const eventData = new FormData();
        
-        eventData.append("thumbnail", thumbnail)
+        //eventData.append("thumbnail", thumbnail)
         eventData.append("title", title)
         eventData.append("description", description)
         eventData.append("price", price)
         eventData.append("sport", sport)
         eventData.append("date", new Date(date))
 
-
+//&&thumbnail !== null
         try {
             if (title !== "" &&
                 description !== "" &&
                 price !== "" &&
                 sport !== "Sport" &&
-                date !== "" &&
-                thumbnail !== null
+                date !== "" 
             ) {
                 if(parseFloat(price)){
                     console.log("Event has been sent")
@@ -117,15 +113,15 @@ return (
     <Container key={formKey}>
         
         <form onSubmit={submitHandler}>
-        <FormGroup>
+        {/* <FormGroup>
           <Label>Upload image </Label> <br/>
           <Label id='thumbnail' style={{ backgroundImage: `url(${preview})` }} className={thumbnail ? 'has-thumbnail' : ''}>
                         <Input type="file" onChange={evt => setThumbnail(evt.target.files[0])} />
                         <img src={CameraIcon} style={{maxwidth :  "50px" , height: "50px"  } } alt="upload icon image" />
           </Label>
           
-         </FormGroup>
-         
+         </FormGroup> */}
+         {console.log("lollllllllll")}
          <FormGroup>
           <Label>Title </Label> <br/>
           <input id='title' value={title} type="text" placeholder="Sport Title" onChange={(event) => setTitle(event.target.value)}></input>
